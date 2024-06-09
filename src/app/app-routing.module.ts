@@ -10,6 +10,7 @@ const routes: Routes = [
   {path:'site', loadChildren:() => import("./Components/site/site.module").then(m => m.SiteModule)},
   {path:'login', component:LoginComponent, pathMatch:"full"},
   {path:'register', component:RegisterComponent, pathMatch:"full"},
+  {path:'layout', loadChildren:() => import("./Components/layout/layout.module").then(m => m.LayoutModule)},
   {path:'**', redirectTo:'site',pathMatch:"full"}
 ];
 

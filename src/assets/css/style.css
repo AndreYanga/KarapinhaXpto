@@ -1233,6 +1233,15 @@ section {
 .container_login {
   background-color: #402B3A;
 }
+.btn-primary {
+  background-color: #402B3A;
+  border: 2px solid #D63484;
+  /* Outros estilos de texto, borda, etc., se necessário */
+}
+.btn-primary:hover {
+  background-color: #6D4F61; /* Nova cor quando o mouse estiver sobre o botão */
+  border: 2px solid #D63484;
+}
 
 /*--------------------------------------------------------------
 # Registrar

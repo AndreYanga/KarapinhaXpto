@@ -1,0 +1,128 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1 class="mb-4">Painel Financeiro</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+        <li class="breadcrumb-item active">Painel Financeiro</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <!-- Colunas da esquerda -->
+      <div class="col-lg-8">
+        <div class="row">
+
+          <!-- Card de Valor Faturado -->
+          <div class="col-md-6 mb-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">Valor Faturado</h5>
+                <div class="row">
+                  <div class="col-6">
+                    <h6 class="mb-0">Hoje</h6>
+                    <p class="text-muted">R$2,500</p>
+                  </div>
+                  <div class="col-6">
+                    <h6 class="mb-0">Ontem</h6>
+                    <p class="text-muted">R$3,000</p>
+                  </div>
+                  <div class="col-6">
+                    <h6 class="mb-0">Mês Corrente</h6>
+                    <p class="text-muted">R$50,000</p>
+                  </div>
+                  <div class="col-6">
+                    <h6 class="mb-0">Mês Passado</h6>
+                    <p class="text-muted">R$40,000</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Valor Faturado Card -->
+
+          <!-- Card de Serviço Mais Solicitado -->
+          <div class="col-md-6 mb-4">
+            <div class="card info-card service-card">
+              <div class="card-body">
+                <h5 class="card-title">Serviço Mais Solicitado</h5>
+                <p class="text-muted">Massagem Relaxante</p>
+              </div>
+            </div>
+          </div><!-- End Serviço Mais Solicitado Card -->
+
+          <!-- Card de Serviço Menos Solicitado -->
+          <div class="col-md-6 mb-4">
+            <div class="card info-card service-card">
+              <div class="card-body">
+                <h5 class="card-title">Serviço Menos Solicitado</h5>
+                <p class="text-muted">Limpeza de Pele</p>
+              </div>
+            </div>
+          </div><!-- End Serviço Menos Solicitado Card -->
+
+          <!-- Card de Top 5 Profissionais -->
+          <div class="col-md-6 mb-4">
+            <div class="card info-card professionals-card">
+              <div class="card-body">
+                <h5 class="card-title">Top 5 Profissionais com Mais Solicitações</h5>
+                <ul class="list-unstyled">
+                  <li>Dr. Silva - 50 solicitações</li>
+                  <li>Dra. Lima - 45 solicitações</li>
+                  <li>Dr. Souza - 40 solicitações</li>
+                  <li>Dra. Santos - 35 solicitações</li>
+                  <li>Dra. Oliveira - 30 solicitações</li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- End Top 5 Profissionais Card -->
+
+        </div>
+      </div><!-- End Left side columns -->
+
+      <!-- Colunas da direita -->
+      <div class="col-lg-4">
+
+          <!-- Gráfico de Donut -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Distribuição da Receita</h5>
+
+              <div id="donutChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#donutChart"), {
+                    series: [40, 30, 20, 10],
+                    labels: ['Produtos', 'Serviços', 'Assinaturas', 'Outros'],
+                    chart: {
+                      type: 'donut',
+                    },
+                    colors: ['#4154f1', '#2eca6a', '#ff771d', '#f14668'],
+                    responsive: [{
+                      breakpoint: 480,
+                      options: {
+                        chart: {
+                          width: 200
+                        },
+                        legend: {
+                          position: 'bottom'
+                        }
+                      }
+                    }]
+                  }).render();
+                });
+              </script>
+            </div>
+
+          </div>
+      </div><!-- End Right side columns -->
+
+    </div>
+  </section>
+
+</main><!-- End #main -->
+  

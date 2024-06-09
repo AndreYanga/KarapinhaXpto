@@ -1,23 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LayoutRoutingModule } from './layout-routing.module';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { SolicitarMarcacaoComponent } from './pages/user/solicitar-marcacao/solicitar-marcacao.component';
-import { MinhasMarcacoesComponent } from './pages/user/minhas-marcacoes/minhas-marcacoes.component';
-import { PerfilComponent } from './pages/user/perfil/perfil.component';
-import { AtivarContasComponent } from './pages/admin/ativar-contas/ativar-contas.component';
-import { GerirAdministrativoComponent } from './pages/admin/gerir-administrativo/gerir-administrativo.component';
-import { RelatorioComponent } from './pages/admin/relatorio/relatorio.component';
-import { DashboardFinanceiroComponent } from './pages/administrativo/dashboard-financeiro/dashboard-financeiro.component';
-import { GerirProfissionaisComponent } from './pages/administrativo/gerir-profissionais/gerir-profissionais.component';
-import { GerirServicosTratamentoComponent } from './pages/administrativo/gerir-servicos-tratamento/gerir-servicos-tratamento.component';
-import { GerirMarcacoesComponent } from './pages/administrativo/gerir-marcacoes/gerir-marcacoes.component';
-import { AgendaMensalComponent } from './pages/administrativo/agenda-mensal/agenda-mensal.component';
 
+import { LayoutRoutingModule } from './layout-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SolicitarMarcacaoComponent } from './solicitar-marcacao/solicitar-marcacao.component';
+import { MinhasMarcacoesComponent } from './minhas-marcacoes/minhas-marcacoes.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { AtivarContasComponent } from './ativar-contas/ativar-contas.component';
+import { GerirAdministrativoComponent } from './gerir-administrativo/gerir-administrativo.component';
+import { RelatorioComponent } from './relatorio/relatorio.component';
+import { DashboardFinanceiroComponent } from './dashboard-financeiro/dashboard-financeiro.component';
+import { GerirProfissionaisComponent } from './gerir-profissionais/gerir-profissionais.component';
+import { GerirServicosComponent } from './gerir-servicos/gerir-servicos.component';
+import { GerirMarcacoesComponent } from './gerir-marcacoes/gerir-marcacoes.component';
+import { AgendaMensalComponent } from './agenda-mensal/agenda-mensal.component';
+
+//o erro estava aqui!!
+import { LayoutComponent } from './layout.component';
 
 @NgModule({
   declarations: [
+    LayoutComponent,
     DashboardComponent,
     SolicitarMarcacaoComponent,
     MinhasMarcacoesComponent,
@@ -27,13 +31,14 @@ import { AgendaMensalComponent } from './pages/administrativo/agenda-mensal/agen
     RelatorioComponent,
     DashboardFinanceiroComponent,
     GerirProfissionaisComponent,
-    GerirServicosTratamentoComponent,
+    GerirServicosComponent,
     GerirMarcacoesComponent,
     AgendaMensalComponent
   ],
   imports: [
     CommonModule,
-    LayoutRoutingModule
+    LayoutRoutingModule,
+
   ]
 })
 export class LayoutModule { }

@@ -1,0 +1,123 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Gerir Administrativos</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+        <li class="breadcrumb-item">Administração</li>
+        <li class="breadcrumb-item active">Gerir Administrativos</li>
+      </ol>
+    </nav>
+  </div><!-- Título da Página -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-6">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Registrar Novo Administrativo</h5>
+
+            <!-- Formulário para Registrar Novo Administrativo -->
+            <form>
+              <div class="row mb-3">
+                <label for="inputFullName" class="col-sm-4 col-form-label">Nome Completo</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputFullName">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputEmail" class="col-sm-4 col-form-label">Endereço de Email</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" id="inputEmail">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPhone" class="col-sm-4 col-form-label">Telefone</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputPhone">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputUsername" class="col-sm-4 col-form-label">Nome de Usuário</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputUsername">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Senha</label>
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" id="inputPassword">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputAccessType" class="col-sm-4 col-form-label">Tipo de Acesso</label>
+                <div class="col-sm-8">
+                  <select class="form-select" id="inputAccessType">
+                    <option selected>Selecione...</option>
+                    <option value="1">Administrativo</option>
+                    <option value="2">Outro Tipo de Acesso</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary me-2">Registrar</button>
+                <button type="reset" class="btn btn-secondary">Limpar</button>
+            </div>
+            
+            </form><!-- Fim do Formulário para Registrar Novo Administrativo -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 mt-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Lista de Administrativos</h5>
+
+            <!-- Tabela para Listar Administrativos -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Nome de Usuário</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>John Doe</td>
+                  <td>johnexample.com</td>
+                  <td>(11) 98765-4321</td>
+                  <td>john_doe</td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2">Editar</button>
+                    <button class="btn btn-danger btn-sm">Remover</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Jane Smith</td>
+                  <td>janeexample.com</td>
+                  <td>(11) 98765-1234</td>
+                  <td>jane_smith</td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2">Editar</button>
+                    <button class="btn btn-danger btn-sm">Remover</button>
+                  </td>
+                </tr>
+                <!-- Adicione mais linhas conforme necessário -->
+              </tbody>
+            </table>
+            <!-- Fim da Tabela para Listar Administrativos -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->

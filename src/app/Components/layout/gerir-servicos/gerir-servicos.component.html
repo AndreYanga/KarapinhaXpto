@@ -1,0 +1,99 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Gerir Serviços/Tratamentos</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+        <li class="breadcrumb-item">Gerir</li>
+        <li class="breadcrumb-item active">Serviços/Tratamentos</li>
+      </ol>
+    </nav>
+  </div><!-- Título da Página -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-6">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adicionar Novo Serviço/Tratamento</h5>
+
+            <!-- Formulário para Adicionar Novo Serviço/Tratamento -->
+            <form>
+              <div class="row mb-3">
+                <label for="inputServiceName" class="col-sm-4 col-form-label">Nome do Serviço/Tratamento</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputServiceName">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputCategory" class="col-sm-4 col-form-label">Categoria</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputCategory">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPrice" class="col-sm-4 col-form-label">Preço</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputPrice">
+                </div>
+              </div>
+
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary me-2">Adicionar</button>
+                <button type="reset" class="btn btn-secondary">Limpar</button>
+              </div>
+            </form><!-- Fim do Formulário para Adicionar Novo Serviço/Tratamento -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 mt-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Lista de Serviços/Tratamentos</h5>
+
+            <!-- Tabela para Listar Serviços/Tratamentos -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Preço</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Corte de Cabelo</td>
+                  <td>Cabelo</td>
+                  <td>R$ 50,00</td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2">Editar</button>
+                    <button class="btn btn-danger btn-sm">Remover</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Manicure</td>
+                  <td>Unhas</td>
+                  <td>R$ 30,00</td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2">Editar</button>
+                    <button class="btn btn-danger btn-sm">Remover</button>
+                  </td>
+                </tr>
+                <!-- Adicione mais linhas conforme necessário -->
+              </tbody>
+            </table>
+            <!-- Fim da Tabela para Listar Serviços/Tratamentos -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+

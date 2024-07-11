@@ -27,12 +27,22 @@
                   <input type="text" class="form-control" id="inputServiceName">
                 </div>
               </div>
+
               <div class="row mb-3">
                 <label for="inputCategory" class="col-sm-4 col-form-label">Categoria</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputCategory">
+                  <select class="form-select" id="inputCategory" required>
+                    <option value="" selected disabled>Escolha uma categoria</option>
+                    <!-- As opções abaixo devem ser geradas dinamicamente pelo backend -->
+                    <option value="Cabelo">Cabelo</option>
+                    <option value="Estética">Estética</option>
+                    <option value="Unhas">Unhas</option>
+                    <option value="Maquiagem">Maquiagem</option>
+                    <!-- Mais categorias conforme necessário -->
+                  </select>
                 </div>
               </div>
+
               <div class="row mb-3">
                 <label for="inputPrice" class="col-sm-4 col-form-label">Preço</label>
                 <div class="col-sm-8">

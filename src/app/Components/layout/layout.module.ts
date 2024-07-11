@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importação do ReactiveFormsModule
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -15,9 +15,8 @@ import { GerirProfissionaisComponent } from './gerir-profissionais/gerir-profiss
 import { GerirServicosComponent } from './gerir-servicos/gerir-servicos.component';
 import { GerirMarcacoesComponent } from './gerir-marcacoes/gerir-marcacoes.component';
 import { AgendaMensalComponent } from './agenda-mensal/agenda-mensal.component';
-
-//o erro estava aqui!!
 import { LayoutComponent } from './layout.component';
+import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.component';
 
 @NgModule({
   declarations: [
@@ -33,12 +32,14 @@ import { LayoutComponent } from './layout.component';
     GerirProfissionaisComponent,
     GerirServicosComponent,
     GerirMarcacoesComponent,
-    AgendaMensalComponent
+    AgendaMensalComponent,
+    GerirCategoriasComponent
   ],
   imports: [
     CommonModule,
     LayoutRoutingModule,
-
+    FormsModule,
+    ReactiveFormsModule // Adição do ReactiveFormsModule
   ]
 })
 export class LayoutModule { }

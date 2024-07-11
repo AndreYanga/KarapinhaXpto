@@ -1250,3 +1250,8 @@ section {
 .container_registrar {
   background-color: #402B3A;
 }
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

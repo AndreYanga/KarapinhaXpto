@@ -15,6 +15,7 @@ import { MinhasMarcacoesComponent } from './minhas-marcacoes/minhas-marcacoes.co
 import { PerfilComponent } from './perfil/perfil.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
 import { SolicitarMarcacaoComponent } from './solicitar-marcacao/solicitar-marcacao.component';
+import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.component';
 
 
 
@@ -33,7 +34,8 @@ const routes: Routes = [{
     {path:'minhas-marcacoes', component:MinhasMarcacoesComponent},
     {path:'perfil', component:PerfilComponent},
     {path:'relatorio', component:RelatorioComponent},
-    {path:'solicitar-marcacoes', component:SolicitarMarcacaoComponent}
+    {path:'solicitar-marcacoes', component:SolicitarMarcacaoComponent},
+    {path:'gerir-categorias', component:GerirCategoriasComponent}
   ]
 }];
 

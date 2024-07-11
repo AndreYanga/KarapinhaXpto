@@ -1,63 +1,67 @@
 <main>
   <div class="container_registrar">
-
     <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
             <div class="d-flex justify-content-center py-4">
               <a routerLink="/site" class="logo d-flex align-items-center w-auto">
                 <img class="logo" src="../../../assets/img/logo.png" alt="">
               </a>
-            </div><!-- End Logo -->
-
+            </div>
+            <!-- End Logo -->
             <div class="card mb-3">
-
               <div class="card-body">
-
                 <div class="pt-4 pb-2">
                   <h5 class="card-title text-center pb-0 fs-4">Crie a sua conta</h5>
                   <p class="text-center small">Insira seus dados pessoais para criar uma conta</p>
                 </div>
-
-                <form class="row g-3 needs-validation" novalidate>
+                <form class="row g-3 needs-validation" (ngSubmit)="onSubmit()" novalidate>
                   <div class="col-12">
                     <label for="yourName" class="form-label">Nome Completo</label>
-                    <input type="text" name="name" class="form-control" id="yourName" required>
+                    <input type="text" name="name" class="form-control" id="yourName" [(ngModel)]="registerData.nomeCompleto" required>
                     <div class="invalid-feedback">Por favor, insira seu nome completo!</div>
                   </div>
-
+                  <div class="col-12">
+                    <label for="yourBI" class="form-label">Bilhete de Identidade (BI)</label>
+                    <input type="text" name="biNumber" class="form-control" id="yourBI" [(ngModel)]="registerData.bi" required>
+                    <div class="invalid-feedback">Por favor, insira o número do seu Bilhete de Identidade!</div>
+                  </div>
                   <div class="col-12">
                     <label for="yourEmail" class="form-label">Endereço de Email</label>
-                    <input type="email" name="email" class="form-control" id="yourEmail" required>
+                    <input type="email" name="email" class="form-control" id="yourEmail" [(ngModel)]="registerData.email" required>
                     <div class="invalid-feedback">Por favor insira um endereço de e-mail válido!</div>
                   </div>
-
                   <div class="col-12">
                     <label for="yourPhone" class="form-label">Telefone</label>
                     <div class="input-group has-validation">
                       <span class="input-group-text">+244</span>
-                      <input type="tel" name="phone" class="form-control" id="yourPhone" placeholder="Seu número de telefone" required>
+                      <input type="tel" name="phone" class="form-control" id="yourPhone" [(ngModel)]="registerData.telemovel" placeholder="Seu número de telefone" required>
                       <div class="invalid-feedback">Por favor, insira seu número de telefone!</div>
                     </div>
                   </div>
-
+                  <div class="col-12">
+                    <label for="photoUpload" class="form-label">Anexar Foto (opcional)</label>
+                    <input type="file" class="form-control" id="photoUpload" (change)="onFileSelected($event)">
+                    <div class="form-text">Selecione uma foto sua.</div>
+                  </div>
                   <div class="col-12">
                     <label for="yourUsername" class="form-label">Nome de Usuário (Username)</label>
                     <div class="input-group has-validation">
-                      <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-                      <input type="text" name="username" class="form-control" id="yourUsername" required>
+                      <input type="text" name="username" class="form-control" id="yourUsername" [(ngModel)]="registerData.userName" required>
                       <div class="invalid-feedback">Escolha um nome de usuário.</div>
                     </div>
                   </div>
-
                   <div class="col-12">
                     <label for="yourPassword" class="form-label">Senha</label>
-                    <input type="password" name="password" class="form-control" id="yourPassword" required>
+                    <input type="password" name="password" class="form-control" id="yourPassword" [(ngModel)]="registerData.password" required>
                     <div class="invalid-feedback">Por favor, insira sua senha!</div>
                   </div>
-
+                  <div class="col-12">
+                    <label for="confirmPassword" class="form-label">Confirmar Senha</label>
+                    <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" required>
+                    <div class="invalid-feedback">Por favor, confirme sua senha!</div>
+                  </div>
                   <div class="col-12">
                     <div class="form-check">
                       <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
@@ -72,19 +76,14 @@
                     <p class="small mb-0">já tem uma conta? <a routerLink="/login">Entrar</a></p>
                   </div>
                 </form>
-
               </div>
             </div>
-
             <div class="credits">
               Designed by <a href="">André Yanga</a>
             </div>
-
           </div>
         </div>
       </div>
-
     </section>
-
   </div>
-</main><!-- End #main -->
+</main>

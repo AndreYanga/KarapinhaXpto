@@ -1,5 +1,4 @@
 <main id="main" class="main">
-
   <div class="pagetitle">
     <h1>Usuários com Contas Pendentes</h1>
     <nav>
@@ -14,60 +13,38 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
-
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Usuários Pendentes de Ativação</h5>
             <p>Liste os usuários cujas contas precisam ser ativadas para acesso ao sistema.</p>
 
-            <!-- Tabela com linhas listradas -->
+            <!-- Tabela com linhas listadas -->
             <table class="table datatable">
               <thead>
                 <tr>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Telefone</th>
-                  <th>Ativação Pendente Desde</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Marina Silva</td>
-                  <td>marinaexample.com</td>
-                  <td>(11) 98765-4321</td>
-                  <td>2024/05/25</td>
+                <tr *ngFor="let usuario of usuarios">
+                  <td>{{ usuario.nomeCompleto }}</td>
+                  <td>{{ usuario.email }}</td>
+                  <td>{{ usuario.telemovel }}</td>
                   <td>
-                    <button class="btn btn-primary btn-sm">Ativar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>João Oliveira</td>
-                  <td>joaoexample.com</td>
-                  <td>(11) 99876-5432</td>
-                  <td>2024/06/10</td>
-                  <td>
-                    <button class="btn btn-primary btn-sm">Ativar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fernanda Santos</td>
-                  <td>fernandaexample.com</td>
-                  <td>(11) 98765-1234</td>
-                  <td>2024/06/15</td>
-                  <td>
-                    <button class="btn btn-primary btn-sm">Ativar</button>
+                    <button class="btn btn-primary btn-sm" (click)="toggleStatus(usuario)">
+                      {{ usuario.ativo ? 'Desativar' : 'Ativar' }}
+                    </button>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <!-- Fim da Tabela com linhas listradas -->
-
+            <!-- Fim da Tabela com linhas listadas -->
           </div>
         </div>
-
       </div>
     </div>
   </section>
-
 </main><!-- End #main -->

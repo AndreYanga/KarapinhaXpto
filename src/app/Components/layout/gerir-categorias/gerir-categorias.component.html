@@ -14,45 +14,41 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-6">
-
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Adicionar Nova Categoria</h5>
-
-            <!-- Formulário para Adicionar Novo Profissional -->
-            <form>
+            <!-- Formulário para Adicionar Nova Categoria -->
+            <form (ngSubmit)="adicionarCategoria()">
               <div class="row mb-3">
-                <label for="inputFullName" class="col-sm-4 col-form-label">Nome da Categoria</label>
+                <label for="inputNameCategory" class="col-sm-4 col-form-label">Nome da Categoria</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputFullName" required>
+                  <input type="text" class="form-control" id="inputNameCategory" [(ngModel)]="novaCategoria.nome" name="nome" required>
                 </div>
               </div>
-
-
               <div class="row mb-3">
-                <label for="inputPhoto" class="col-sm-4 col-form-label">Imagem de categoria</label>
+                <label for="inputDescription" class="col-sm-4 col-form-label">Descrição</label>
                 <div class="col-sm-8">
-                  <input type="file" class="form-control" id="inputPhoto" required>
+                  <input type="text" class="form-control" id="inputDescription" [(ngModel)]="novaCategoria.descricao" name="descricao" required>
                 </div>
               </div>
-
+              <div class="row mb-3">
+                <label for="inputPhoto" class="col-sm-4 col-form-label">Imagem da Categoria</label>
+                <div class="col-sm-8">
+                  <input type="file" class="form-control" id="inputPhoto" (change)="onFileChange($event)" required>
+                </div>
+              </div>
               <div class="text-center mt-3">
                 <button type="submit" class="btn btn-primary me-2">Adicionar</button>
-
               </div>
-
-            </form><!-- Fim do Formulário para Adicionar Novo Profissional -->
-
+            </form><!-- Fim do Formulário para Adicionar Nova Categoria -->
           </div>
         </div>
       </div>
-
       <div class="col-lg-12 mt-4">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Lista das Categorias</h5>
-
-            <!-- Tabela para Listar Profissionais -->
+            <!-- Tabela para Listar Categorias -->
             <table class="table datatable">
               <thead>
                 <tr>
@@ -61,26 +57,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Cabeleireiro</td>
+                <tr *ngFor="let categoria of categorias">
+                  <td>{{ categoria.nome }}</td>
                   <td>
                     <button class="btn btn-primary btn-sm me-2">Editar</button>
                     <button class="btn btn-danger btn-sm">Remover</button>
                   </td>
                 </tr>
-                <tr>
-                  <td>Barbearia</td>
-
-                  <td>
-                    <button class="btn btn-primary btn-sm me-2">Editar</button>
-                    <button class="btn btn-danger btn-sm">Remover</button>
-                  </td>
-                </tr>
-                <!-- Adicione mais linhas conforme necessário -->
               </tbody>
             </table>
-            <!-- Fim da Tabela para Listar Profissionais -->
-
+            <!-- Fim da Tabela para Listar Categorias -->
           </div>
         </div>
       </div>

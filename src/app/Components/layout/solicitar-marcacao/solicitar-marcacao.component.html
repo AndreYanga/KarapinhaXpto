@@ -18,34 +18,29 @@
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Escolher Categoria</label>
                 <div class="col-sm-10">
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select" aria-label="Escolher Categoria" (change)="selecionarCategoria($event)">
                     <option value="" disabled selected>Abra o menu de seleção</option>
-                    <option value="1">Cabelo</option>
-                    <option value="2">Estética</option>
+                    <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nome }}</option>
                   </select>
                 </div>
               </div>
 
-              <div class="row mb-3">
+              <div class="row mb-3" *ngIf="servicos.length > 0">
                 <label class="col-sm-2 col-form-label">Selecionar Serviço/Tratamento</label>
                 <div class="col-sm-10">
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select" aria-label="Selecionar Serviço/Tratamento" (change)="selecionarServico($event)">
                     <option value="" disabled selected>Abra o menu de seleção</option>
-                    <option value="1">Serviço 1</option>
-                    <option value="2">Serviço 2</option>
-                    <option value="3">Serviço 3</option>
+                    <option *ngFor="let servico of servicos" [value]="servico.id">{{ servico.descricao }}</option>
                   </select>
                 </div>
               </div>
 
-              <div class="row mb-3">
+              <div class="row mb-3" *ngIf="profissionais.length > 0">
                 <label class="col-sm-2 col-form-label">Escolher Profissional</label>
                 <div class="col-sm-10">
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select" aria-label="Escolher Profissional" (change)="selecionarProfissional($event)">
                     <option value="" disabled selected>Abra o menu de seleção</option>
-                    <option value="1">Profissional 1</option>
-                    <option value="2">Profissional 2</option>
-                    <option value="3">Profissional 3</option>
+                    <option *ngFor="let profissional of profissionais" [value]="profissional.id">{{ profissional.nome }}</option>
                   </select>
                 </div>
               </div>
@@ -53,44 +48,57 @@
               <div class="row mb-3">
                 <label for="inputDate" class="col-sm-2 col-form-label">Selecionar Data</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control">
+                  <input type="date" class="form-control" (change)="selecionarData($event)" name="data">
                 </div>
               </div>
+
+              <label for="hora">Selecionar Hora</label>
+              <select id="hora" (change)="selecionarHora($event)">
+                <option *ngFor="let horario of horarios" [value]="horario.horarioId">
+                  {{ horario.horarioDescricao }}
+                </option>
+              </select>
 
               <div class="row mb-3">
-                <label for="inputTime" class="col-sm-2 col-form-label">Selecionar Hora</label>
+                <label for="inputTotalValue" class="col-sm-2 col-form-label">Valor unitário pelo serviço</label>
                 <div class="col-sm-10">
-                  <input type="time" class="form-control">
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <label for="inputTotalValue" class="col-sm-2 col-form-label">Valor Total a Pagar</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputTotalValue" placeholder="Kz 0,00">
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-10">
-                  <button type="button" class="btn btn-success">Adicionar Serviço</button>
-                </div>
-              </div>
-
-              <div class="card mt-3">
-                <div class="card-body">
-                  <h5 class="card-title">Serviço 1</h5>
-                  <p><strong>Serviço Selecionado:</strong> Serviço 1</p>
-                  <!-- Adicione aqui os campos adicionais necessários para cada serviço -->
+                  <p *ngIf="servicoSelecionado"><strong>Serviço Selecionado:</strong> {{ servicoSelecionado.preco }}</p>
                 </div>
               </div>
 
               <div class="row mb-3">
                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary">Confirmar Marcação</button>
+                  <button type="button" class="btn btn-success" (click)="adicionarServico()">Adicionar Serviço</button>
                 </div>
               </div>
 
+             <!-- Lista de Serviços Selecionados -->
+        <div class="row mb-3" *ngIf="servicosSelecionados.length > 0">
+          <div class="col-sm-8">
+            <h5>Serviços Selecionados:</h5>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let servico of servicosSelecionados">
+                <span>{{ servico.descricao }}</span>
+                <span class="badge bg-primary">{{ servico.preco | currency:'Kz':'symbol' }}</span>
+                <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="removerServico(servico)">Remover</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      <!-- Total a Pagar -->
+      <div class="row mb-3" *ngIf="servicosSelecionados.length > 0">
+        <div class="col-sm-8">
+          <p><strong>Total a Pagar:</strong> {{ novaMarcacao.totalPagar | currency:'Kz':'symbol' }}</p>
+        </div>
+      </div>
+
+
+              <div class="row mb-3">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary" (click)="confirmarMarcacao()">Confirmar Marcação</button>
+                </div>
+              </div>
             </form><!-- End General Form Elements -->
 
           </div>

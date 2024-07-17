@@ -18,62 +18,51 @@
           <div class="card-body">
             <h5 class="card-title">Visualizar Marcações</h5>
 
-            <!-- Tabela com linhas listradas -->
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>Categoria</th>
-                  <th>Serviço/Tratamento</th>
-                  <th>Profissional</th>
-                  <th data-type="date" data-format="YYYY/DD/MM">Data</th>
-                  <th>Hora</th>
-                  <th>Valor</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Massagem</td>
-                  <td>Massagem Relaxante</td>
-                  <td>Dr. Silva</td>
-                  <td>2023/05/15</td>
-                  <td>14:00</td>
-                  <td>Kz 150,00</td>
-                  <td>
-                    <button class="btn btn-primary btn-sm me-2">Editar</button>
-                    <button class="btn btn-danger btn-sm me-2">Cancelar</button>
-                    <button class="btn btn-warning btn-sm">Reagendar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fisioterapia</td>
-                  <td>Terapia Manual</td>
-                  <td>Dr. Souza</td>
-                  <td>2023/06/20</td>
-                  <td>10:30</td>
-                  <td>Kz 200,00</td>
-                  <td>
-                    <button class="btn btn-primary btn-sm me-2">Editar</button>
-                    <button class="btn btn-danger btn-sm me-2">Cancelar</button>
-                    <button class="btn btn-warning btn-sm">Reagendar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Estética</td>
-                  <td>Limpeza de Pele</td>
-                  <td>Dra. Lima</td>
-                  <td>2023/07/05</td>
-                  <td>09:00</td>
-                  <td>Kz 100,00</td>
-                  <td>
-                    <button class="btn btn-primary btn-sm me-2">Editar</button>
-                    <button class="btn btn-danger btn-sm me-2">Cancelar</button>
-                    <button class="btn btn-warning btn-sm">Reagendar</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Fim da Tabela com linhas listradas -->
+            <!-- Loop through marcacoes -->
+            <div *ngFor="let marcacao of marcacoes">
+              <h3>ID da Marcação: {{ marcacao.id }}</h3>
+              <p>Total a Pagar: {{ marcacao.totalPagar | currency:'Kz':'symbol' }}</p>
+
+              <!-- Verifica o status da marcação -->
+              <ng-container *ngIf="marcacao.status; else marcaPendente">
+                <!-- Lista de Serviços para esta Marcação -->
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Serviço/Tratamento</th>
+                      <th>Categoria</th>
+                      <th>Profissional</th>
+                      <th>Data</th>
+                      <th>Hora</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let servico of servicosPorMarcacao[marcacao.id]">
+                      <td>{{ servico.servicoDescricao }}</td>
+                      <td>{{ servico.categoriaDescricao }}</td>
+                      <td>{{ servico.profissionalNome }}</td>
+                      <td>{{ servico.dataHora | date:'yyyy/MM/dd' }}</td>
+                      <td>{{ servico.dataHora | date:'HH:mm' }}</td>
+                      <td>
+                        <button class="btn btn-warning btn-sm">Reagendar</button>
+                        <button class="btn btn-danger btn-sm me-2">Cancelar</button>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+              <!-- Fim Lista de Serviços para esta Marcação -->
+
+              <!-- Marcação Pendente -->
+              <ng-template #marcaPendente>
+                <p>Marcação Pendente</p>
+              </ng-template>
+              <!-- Fim Marcação Pendente -->
+
+            </div>
+            <!-- Fim Loop through marcacoes -->
 
           </div>
         </div>

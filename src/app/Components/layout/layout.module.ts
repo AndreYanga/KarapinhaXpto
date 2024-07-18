@@ -18,6 +18,8 @@ import { AgendaMensalComponent } from './agenda-mensal/agenda-mensal.component';
 import { LayoutComponent } from './layout.component';
 import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -39,7 +41,8 @@ import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.co
     CommonModule,
     LayoutRoutingModule,
     FormsModule,
-    ReactiveFormsModule // Adição do ReactiveFormsModule
+    ReactiveFormsModule, // Adição do ReactiveFormsModule
+    NgbModule // Adicione isto
   ]
 })
 export class LayoutModule { }

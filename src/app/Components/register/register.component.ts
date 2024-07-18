@@ -18,7 +18,7 @@ export class RegisterComponent {
     userName: '',
     password: '',
     perfilId: 3,
-    ativo: true,
+    ativo: false,
     status: true
   };
   errorMessage: string | null = null;

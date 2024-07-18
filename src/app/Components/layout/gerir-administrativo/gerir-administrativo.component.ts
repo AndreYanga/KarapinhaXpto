@@ -18,7 +18,7 @@ export class GerirAdministrativoComponent implements OnInit {
     password: '',
     perfilId: 2,
     ativo: true,
-    status: true
+    status: false
   };
   administrativos: any[] = [];
   errorMessage: string = '';

@@ -1,5 +1,4 @@
 <main id="main" class="main">
-
   <div class="pagetitle">
     <h1>Minhas Marcações</h1>
     <nav>
@@ -12,62 +11,72 @@
   </div><!-- Título da Página -->
 
   <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Visualizar Marcações</h5>
+    <!-- Loop through marcacoes -->
+    <div *ngFor="let marcacao of marcacoes">
+      <h3>ID da Marcação: {{ marcacao.id }}</h3>
+      <p>Total a Pagar: {{ marcacao.totalPagar | currency:'Kz':'symbol' }}</p>
 
-            <!-- Loop through marcacoes -->
-            <div *ngFor="let marcacao of marcacoes">
-              <h3>ID da Marcação: {{ marcacao.id }}</h3>
-              <p>Total a Pagar: {{ marcacao.totalPagar | currency:'Kz':'symbol' }}</p>
+      <!-- Verifica o status da marcação -->
+      <ng-container *ngIf="marcacao.status; else marcaPendente">
+        <!-- Lista de Serviços para esta Marcação -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Serviço/Tratamento</th>
+              <th>Categoria</th>
+              <th>Profissional</th>
+              <th>Data</th>
+              <th>Hora</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let servico of servicosPorMarcacao[marcacao.id]">
+              <td>{{ servico.servicoDescricao }}</td>
+              <td>{{ servico.categoriaDescricao }}</td>
+              <td>{{ servico.profissionalNome }}</td>
+              <td>{{ servico.dataHora | date:'yyyy/MM/dd' }}</td>
+              <td>{{ servico.dataHora | date:'HH:mm' }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm me-2" (click)="selecionarProfissional(servico.profissionalId)" (click)="openReagendarModal(marcacao, servico, reagendarModal)">Reagendar</button>
+                <button class="btn btn-danger btn-sm" (click)="cancelarMarcacao(servico.id)">Cancelar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <!-- Fim Lista de Serviços para esta Marcação -->
 
-              <!-- Verifica o status da marcação -->
-              <ng-container *ngIf="marcacao.status; else marcaPendente">
-                <!-- Lista de Serviços para esta Marcação -->
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Serviço/Tratamento</th>
-                      <th>Categoria</th>
-                      <th>Profissional</th>
-                      <th>Data</th>
-                      <th>Hora</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let servico of servicosPorMarcacao[marcacao.id]">
-                      <td>{{ servico.servicoDescricao }}</td>
-                      <td>{{ servico.categoriaDescricao }}</td>
-                      <td>{{ servico.profissionalNome }}</td>
-                      <td>{{ servico.dataHora | date:'yyyy/MM/dd' }}</td>
-                      <td>{{ servico.dataHora | date:'HH:mm' }}</td>
-                      <td>
-                        <button class="btn btn-warning btn-sm">Reagendar</button>
-                        <button class="btn btn-danger btn-sm me-2">Cancelar</button>
-
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </ng-container>
-              <!-- Fim Lista de Serviços para esta Marcação -->
-
-              <!-- Marcação Pendente -->
-              <ng-template #marcaPendente>
-                <p>Marcação Pendente</p>
-              </ng-template>
-              <!-- Fim Marcação Pendente -->
-
-            </div>
-            <!-- Fim Loop through marcacoes -->
-
-          </div>
-        </div>
-      </div>
+      <!-- Marcação Pendente -->
+      <ng-template #marcaPendente>
+        <p>Marcação Pendente</p>
+      </ng-template>
+      <!-- Fim Marcação Pendente -->
     </div>
-  </section>
+    <!-- Fim Loop through marcacoes -->
 
+    <!-- Modal de Reagendamento -->
+    <ng-template #reagendarModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="reagendarModalLabel">Reagendar Marcação</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reagendarForm" (ngSubmit)="onReagendarSubmit()">
+          <div class="mb-3">
+            <label for="data" class="form-label">Data</label>
+            <input type="date" id="data" class="form-control" formControlName="data" (change)="selecionarData($event)">
+          </div>
+          <div class="mb-3">
+            <label for="hora" class="form-label">Hora</label>
+            <select id="hora" class="form-control" formControlName="hora" (change)="selecionarHora($event)">
+              <option *ngFor="let horario of horarios" [value]="horario.horarioId">{{ horario.horarioDescricao }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+      </div>
+    </ng-template>
+  </section>
 </main><!-- End #main -->

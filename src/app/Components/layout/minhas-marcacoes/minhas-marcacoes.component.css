@@ -53,6 +53,9 @@ h6 {
   color: #012970;
 }
 
+.button-spacing {
+  margin-right: 10px; /* Ajuste o valor conforme necessário */
+}
 
 /* Light Backgrounds */
 .bg-primary-light {

@@ -20,4 +20,13 @@ export class MarcacaoService {
   listarServicosPorMarcacaoId(marcacaoId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/ServicoMarcacao/ListarServicoMarcacaPorMarcacaoId/${marcacaoId}`);
   }
+
+  reagendarMarcacao(idServico: number, novaDataHora: string): Observable<any> {
+    const body = { id: idServico, novaDataHora };
+    return this.http.post(`${this.apiUrl}/ServicoMarcacao/reagendar`, body);
+  }
+
+  cancelarMarcacao(idServico: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/ServicoMarcacao/cancelar/${idServico}`);
+  }
 }

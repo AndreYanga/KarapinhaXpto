@@ -26,4 +26,8 @@ export class CategoriaService {
   listarCategorias(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/Categoria/ListaCategorias`);
   }
+
+  deletarCategoria(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/Categoria/DeletarCategorias${id}`);
+  }
 }

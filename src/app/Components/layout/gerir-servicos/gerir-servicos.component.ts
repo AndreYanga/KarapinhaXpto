@@ -62,6 +62,25 @@ export class GerirServicosComponent implements OnInit {
     });
   }
 
+  removerServico(id: number): void {
+    if (confirm('Tem certeza de que deseja remover este serviço?')) {
+      this.servicoService.removerServico(id).subscribe({
+        next: (response: ServicoResponse) => {
+          if (response.sucesso) {
+            this.carregarServicos();
+            alert('Serviço removido com sucesso!');
+          } else {
+            alert('Erro ao remover serviço. Por favor, tente novamente.');
+          }
+        },
+        error: (error: any) => {
+          console.error('Erro ao remover serviço:', error);
+          alert('Erro ao remover serviço. Por favor, tente novamente.');
+        }
+      });
+    }
+  }
+
   resetNovaServico(): void {
     this.novaServico = {
       id: 0,

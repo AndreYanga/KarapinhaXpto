@@ -22,4 +22,8 @@ export class ServicoService {
   listarCategorias(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/Categoria/ListaCategorias`);
   }
+
+  removerServico(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/Servico/DeletarServicos${id}`);
+  }
 }

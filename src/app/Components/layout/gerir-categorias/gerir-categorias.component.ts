@@ -51,5 +51,20 @@ export class GerirCategoriasComponent implements OnInit {
     });
   }
 
- 
+  removerCategoria(id: number): void {
+    if (confirm('Você realmente deseja remover esta categoria?')) {
+      this.categoriaService.deletarCategoria(id).subscribe(response => {
+        if (response.sucesso) {
+          this.carregarCategorias();
+          alert('Categoria removida com sucesso!');
+        } else {
+          alert('Erro ao remover categoria. Por favor, tente novamente.');
+        }
+      }, error => {
+        alert('Erro ao conectar com o servidor. Por favor, tente novamente mais tarde.');
+      });
+    }
+  }
+
+
 }

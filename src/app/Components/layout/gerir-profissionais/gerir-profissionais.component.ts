@@ -276,6 +276,30 @@ export class GerirProfissionaisComponent implements OnInit {
     );
   }
 
+  removerProfissional(profissionalId: number): void {
+    if (confirm('Você tem certeza que deseja remover este profissional?')) {
+      console.log('ANTES DE TUDO:', profissionalId);
+      this.authService.removerProfissional(profissionalId).subscribe(
+        response => {
+          if (response.sucesso) {
+            console.log('Profissional removido com sucesso:', response);
+            alert('Profissional removido com sucesso');
+
+            this.listarProfissionais(); // Atualiza a lista de profissionais
+          } else {
+            console.error('Erro ao remover profissional:', response.mensagem);
+            alert('Erro ao remover profissional');
+          }
+        },
+        error => {
+          console.error('Erro na solicitação de remoção:', error);
+          alert('Erro ao remover profissional');
+        }
+      );
+    }
+  }
+
+
 }
 
 function gerarNomeUsuario(nomeProfissional: string): string {

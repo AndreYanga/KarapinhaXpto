@@ -14,6 +14,9 @@ export class PerfilComponent implements OnInit {
   profileForm: FormGroup;
   changePasswordForm: FormGroup; // Adicionando o FormGroup para alteração de senha
 
+  profissionalId: number | null = null;
+  perfilAtual: string = ''; // Perfil do usuário logado
+
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -44,6 +47,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioLogado = this.authService.currentUserValue;
     if (this.usuarioLogado) {
+        this.perfilAtual =  this.usuarioLogado.perfil.descricao;
         this.profileForm.patchValue({
         id: this.usuarioLogado.id,
         nomeCompleto: this.usuarioLogado.nomeCompleto,
@@ -54,7 +58,25 @@ export class PerfilComponent implements OnInit {
         perfilId: this.usuarioLogado.perfilId,
         ativo: this.usuarioLogado.ativo,
         status: this.usuarioLogado.status
+
+
       });
+    }
+
+
+    if (this.perfilAtual === 'Profissional') {
+          if (this.usuarioLogado && this.usuarioLogado.email) {
+            console.log('ANTES DE TUDO.',this.usuarioLogado.email);
+            this.authService.verificarPerfil(this.usuarioLogado.email).subscribe(response => {
+              if (response.sucesso) {
+                this.profissionalId = response.dados;
+                console.log('ANTES DE TUDO.',this.profissionalId);
+              }
+            });
+          } else {
+            // Lidar com o caso onde o usuário logado é nulo
+            console.error('Usuário logado não está disponível.');
+          }
     }
   }
 
@@ -77,7 +99,22 @@ export class PerfilComponent implements OnInit {
     this.authService.updateProfile(formData).subscribe(
       response => {
         console.log('Perfil atualizado com sucesso', response);
-        window.alert('Perfil atualizado com sucesso!');  // Adicionando o alerta aqui
+        alert('Perfil atualizado com sucesso!');  // Adicionando o alerta aqui
+
+        if (this.perfilAtual === 'Profissional'){
+              // Atualiza o profissional se o perfil for Profissional
+              if (this.profissionalId) {
+                this.authService.atualizarProfissional(this.profissionalId, formData).subscribe(profissionalResponse => {
+                  if (profissionalResponse.sucesso) {
+                    console.log('Profissional atualizado com sucesso', profissionalResponse);
+                    alert('Profissional atualizado com sucesso!');
+                  } else {
+                    console.error('Erro ao atualizar profissional', profissionalResponse);
+                    alert('Erro ao atualizar profissional!');
+                  }
+                });
+              }
+          }
       },
       error => {
         console.error('Erro ao atualizar perfil', error);

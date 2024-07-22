@@ -23,11 +23,13 @@ export class LayoutComponent implements OnInit {
           this.router.navigate(['/layout/perfil']); // Redireciona para a tela de perfil
         }
       }
+
+      this.router.navigate(['/layout/welcome']);
     });
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']); // Adicionando redirecionamento para a tela de login após logout
+   
   }
 }

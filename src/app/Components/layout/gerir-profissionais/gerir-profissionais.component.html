@@ -48,16 +48,30 @@
               <div class="row mb-3">
                 <label for="inputPhone" class="col-sm-4 col-form-label">Telefone</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputPhone" required [(ngModel)]="telefone" name="telefone">
+                  <input type="text" class="form-control" id="inputPhone"
+                         required [(ngModel)]="telefone" name="telefone"
+                         pattern="[0-9]*" maxlength="9"
+                         placeholder="Digite seu telefone">
+                  <div *ngIf="telefone && (telefone.length > 9)" class="text-danger">
+                    O número deve ter no máximo 9 dígitos.
+                  </div>
                 </div>
               </div>
+
 
               <div class="row mb-3">
                 <label for="inputFullName" class="col-sm-4 col-form-label">BI</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputFullName" required [(ngModel)]="bi" name="bi">
+                  <input type="text" class="form-control" id="inputFullName"
+                         required [(ngModel)]="bi" name="bi"
+                         maxlength="14"
+                         placeholder="Digite seu BI">
+                  <div *ngIf="bi && bi.length > 14" class="text-danger">
+                    O BI deve ter no máximo 14 dígitos.
+                  </div>
                 </div>
               </div>
+
 
               <div class="row mb-3">
                 <label for="inputWorkingHours" class="col-sm-4 col-form-label">Horário de Trabalho</label>
@@ -129,8 +143,9 @@
                   <td>{{ profissional.email }}</td>
                   <td>{{ profissional.telefone }}</td>
                   <td>
-                    <button class="btn btn-primary btn-sm me-2">Editar</button>
-                    <button class="btn btn-danger btn-sm">Remover</button>
+
+                  
+                    <button class="btn btn-danger btn-sm" (click)="removerProfissional(profissional.id)">Remover</button>
                   </td>
                 </tr>
               </tbody>

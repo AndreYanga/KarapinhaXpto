@@ -56,7 +56,7 @@ export class ConsultarAgendaComponent implements OnInit {
       this.UtilizadorEmail = currentUser.email;
       console.log('peguei email', this.UtilizadorEmail);
     }
-    this.obterIdProfissionalPorEmail('profissional1.1@gmail.com'); // Substitua pelo email real
+    this.obterIdProfissionalPorEmail(this.UtilizadorEmail); // Substitua pelo email real
 
   }
 

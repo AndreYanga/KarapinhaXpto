@@ -77,8 +77,8 @@
                   <td>{{ nomeCategoria(servico.categoriaId) }}</td>
                   <td>KZ {{ servico.preco | number }}</td>
                   <td>
-                   
-                    <button class="btn btn-danger btn-sm">Remover</button>
+
+                    <button class="btn btn-danger btn-sm" (click)="removerServico(servico.id)">Remover</button>
                   </td>
                 </tr>
               </tbody>

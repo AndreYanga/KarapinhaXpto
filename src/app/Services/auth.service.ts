@@ -158,4 +158,29 @@ export class AuthService {
     return this.http.get<any>(`${this.apiUrl}/Utilizador/ByEmail?email=${email}`);
   }
 
+  removerProfissional(id: number) {
+    return this.http.delete<any>(`${this.apiUrl}/Profissional/DeletarProfissionais?id=${id}`);
+  }
+
+
+  verificarPerfil(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Profissional/idPorEmail?email=${email}`);
+  }
+
+  atualizarProfissional(id: number, dados: any): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('Id', id.toString());
+    formData.append('Nome', dados.nomeCompleto || '');
+    formData.append('Email', dados.email || '');
+    formData.append('Telefone', dados.telemovel || '');
+
+    if (dados.foto) {
+      const fileName = `${dados.userName}.png`; // Usa o nome de usuário como o nome do arquivo com extensão PNG
+      formData.append('Foto', dados.foto as Blob, fileName); // Salva a foto com o nome de usuário
+    }
+
+    return this.http.put<any>(`${this.apiUrl}/Profissional/AtualizarProfissionais`, formData);
+  }
+
+
 }

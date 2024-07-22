@@ -14,7 +14,7 @@
             <p>{{ servico.descricao }}</p>
             <p><strong>Preço:</strong> A partir de Kz {{ servico.preco.toFixed(2) }}</p>
           </div>
-          <a href="#about" class="agendar">Agendar</a>
+          <a (click)="agendarServico()" class="agendar">Agendar</a>
         </div>
       </div>
     </div>

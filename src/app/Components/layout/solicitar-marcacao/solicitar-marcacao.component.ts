@@ -233,7 +233,8 @@ export class SolicitarMarcacaoComponent implements OnInit {
         });
 
         alert('Marcação realizada com sucesso!');
-
+          // Gerar o PDF após salvar todos os serviços
+          this.gerarPDF(marcacaoId);
         // Enviar e-mail se o perfil for 'Profissional'
         if (this.perfilAtual === 'Profissional') {
           if (!this.salvarEmail) {
@@ -269,12 +270,53 @@ export class SolicitarMarcacaoComponent implements OnInit {
         }
 
         this.resetarFormulario();
+        this. ngOnInit();
       },
       error => {
         console.error('Erro ao registrar marcação', error);
         alert('Erro ao realizar a marcação.');
       }
     );
+  }
+
+
+  // Método para gerar e exibir o PDF
+  gerarPDF(marcacaoId: number): void {
+    // Nome da empresa e localização
+    const nomeEmpresa = 'Belleza Karapinha';
+    const localizacao = 'Talatona, Bairro Militar';
+
+    const doc = new jsPDF();
+
+    // Adiciona o título do documento
+    doc.setFontSize(18);
+    doc.text('Detalhes da Marcação', 10, 10);
+
+    // Adiciona o nome da empresa e localização
+    doc.setFontSize(14);
+    doc.text(`${nomeEmpresa}`, 10, 20);
+    doc.text(`${localizacao}`, 10, 30);
+
+    // Adiciona a data de registro
+    doc.setFontSize(12);
+    doc.text(`Data de Registro: ${this.novaMarcacao.dataRegistro}`, 10, 40);
+
+    // Adiciona o ID da marcação
+    doc.text(`ID da Marcação: ${marcacaoId}`, 10, 50);
+
+    // Adiciona os serviços solicitados
+    doc.text('Serviços Solicitados:', 10, 60);
+    this.servicosSelecionados.forEach((servico, index) => {
+      const servicoText = `${index + 1}. Serviço: ${servico.servicoNome}, Profissional: ${servico.profissionalNome}, Data: ${servico.dataHora}, Preço: Kz${servico.preco}`;
+      doc.text(servicoText, 10, 70 + (index * 10));
+    });
+
+    // Adiciona o total a pagar
+    doc.setFontSize(14);
+    doc.text(`Total a Pagar: Kz${this.novaMarcacao.totalPagar}`, 10, 70 + (this.servicosSelecionados.length * 10) + 10);
+
+    // Salva o PDF com um nome único (exemplo: marcacao-12345.pdf)
+    doc.save(`marcacao-${marcacaoId}.pdf`);
   }
 
 
@@ -300,10 +342,6 @@ export class SolicitarMarcacaoComponent implements OnInit {
       hora: null
     };
     this.emailUtilizador = '';
-    this.perfilAtual = '';
+
   }
-
-
-
-
 }

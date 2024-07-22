@@ -15,6 +15,7 @@ import { ContactComponent } from './contact/contact.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { SiteComponent } from './site.component'; // Certifique-se de que SiteComponent está declarado aqui
+import { ReactiveFormsModule } from '@angular/forms'; // Importe o ReactiveFormsModule
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { SiteComponent } from './site.component'; // Certifique-se de que SiteCo
   ],
   imports: [
     CommonModule,
-    SiteRoutingModule
+    SiteRoutingModule,
+    ReactiveFormsModule // Adicione ReactiveFormsModule aos imports
   ]
 })
 export class SiteModule { }

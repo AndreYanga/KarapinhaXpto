@@ -20,6 +20,7 @@ import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.co
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConsultarAgendaComponent } from './consultar-agenda/consultar-agenda.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ConsultarAgendaComponent } from './consultar-agenda/consultar-agenda.co
     GerirMarcacoesComponent,
     AgendaMensalComponent,
     GerirCategoriasComponent,
-    ConsultarAgendaComponent
+    ConsultarAgendaComponent,
+    WelcomeComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,4 @@
- <!-- ======= Header ======= -->
- <header id="header" class="fixed-top ">
+<header id="header" class="fixed-top ">
   <div class="container d-flex align-items-center justify-content-lg-between">
 
     <img src="assets/img/logo.png" class="logo" alt="">
@@ -19,8 +18,11 @@
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->
 
-    <a routerLink="/login" class="get-started-btn scrollto">Entrar / Cadastrar</a>
-
+    <a *ngIf="!isLoggedIn; else loggedIn" routerLink="/login" class="get-started-btn scrollto">Entrar / Cadastrar</a>
+    <ng-template #loggedIn>
+      <a routerLink="layout/welcome" class="get-started-btn scrollto">Painel</a>
+      <a (click)="logout()" class="get-started-btn scrollto">Sair</a>
+    </ng-template>
 
   </div>
 </header><!-- End Header -->

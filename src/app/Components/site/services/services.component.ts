@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SiteCategoriaService } from '../../../Services/site-categoria.service';
+import { AuthService } from '../../../Services/auth.service';
+import { Router } from '@angular/router'; // Importando Router para redirecionamento
 
 @Component({
   selector: 'app-services',
@@ -10,7 +12,11 @@ export class ServicesComponent implements OnInit {
   categorias: any[] = [];
   servicos: any[] = [];
 
-  constructor(private dataService: SiteCategoriaService) {}
+  constructor(
+    private dataService: SiteCategoriaService,
+    private authService: AuthService, // Injetando AuthService
+    private router: Router // Injetando Router
+  ) {}
 
   ngOnInit(): void {
     this.carregarCategoriasEServicos();
@@ -41,5 +47,13 @@ export class ServicesComponent implements OnInit {
 
   getServicosPorCategoriaId(categoriaId: number): any[] {
     return this.servicos.filter(servico => servico.categoriaId === categoriaId);
+  }
+
+  agendarServico(): void {
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['layout/welcome']); // Redireciona para o painel se logado
+    } else {
+      this.router.navigate(['/login']); // Redireciona para o login se não logado
+    }
   }
 }

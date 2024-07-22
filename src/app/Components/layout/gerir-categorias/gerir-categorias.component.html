@@ -60,8 +60,9 @@
                 <tr *ngFor="let categoria of categorias">
                   <td>{{ categoria.nome }}</td>
                   <td>
-                    <button class="btn btn-primary btn-sm me-2">Editar</button>
-                    <button class="btn btn-danger btn-sm">Remover</button>
+
+                    
+                    <button class="btn btn-danger btn-sm" (click)="removerCategoria(categoria.id)">Remover</button>
                   </td>
                 </tr>
               </tbody>

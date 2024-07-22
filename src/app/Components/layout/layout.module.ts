@@ -19,6 +19,7 @@ import { LayoutComponent } from './layout.component';
 import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConsultarAgendaComponent } from './consultar-agenda/consultar-agenda.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     GerirServicosComponent,
     GerirMarcacoesComponent,
     AgendaMensalComponent,
-    GerirCategoriasComponent
+    GerirCategoriasComponent,
+    ConsultarAgendaComponent
   ],
   imports: [
     CommonModule,

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, Dados } from '../Interfaces/auth.interface';
 import { RegisterRequest, RegisterResponse } from '../Interfaces/register.interface';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,11 @@ import { RegisterRequest, RegisterResponse } from '../Interfaces/register.interf
 export class AuthService {
   private apiUrl = `${environment.apiUrl}`;
   private currentUserSubject: BehaviorSubject<Dados | null>;
+  public currentUser$: Observable<Dados | null>; // Adicionando esta linha
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<Dados | null>(null);
+    this.currentUser$ = this.currentUserSubject.asObservable(); // Inicializando o Observable
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       this.currentUserSubject.next(JSON.parse(storedUser));
@@ -23,6 +26,15 @@ export class AuthService {
 
   get currentUserValue(): Dados | null {
     return this.currentUserSubject.value;
+  }
+
+  updateStatus(userId: number, status: boolean): Observable<any> {
+    const formData = new FormData();
+    formData.append('Id', userId.toString());
+    formData.append('Ativo', status.toString());
+
+    //return this.http.put<any>(`${this.apiUrl}/AtualizarUtilizador/${userId}`, formData);
+    return this.http.put<any>(`${this.apiUrl}/Utilizador/AtualizarUtilizador/${userId}`, formData);
   }
 
   login(data: LoginRequest): Observable<LoginResponse> {
@@ -64,7 +76,8 @@ export class AuthService {
     formData.append('UserName', userData.userName || '');
     formData.append('Telemovel', userData.telemovel || '');
     formData.append('Email', userData.email || '');
-
+    formData.append('Password', userData.password || ''); // Adiciona a senha no formulário
+    formData.append('Status', userData.status.toString()); // Adiciona o status
 
     if (userData.foto) {
       const fileName = `${userData.userName}.png`; // Usa o nome de usuário como o nome do arquivo com extensão PNG
@@ -73,6 +86,7 @@ export class AuthService {
 
     return this.http.put<any>(`${this.apiUrl}/Utilizador/AtualizarUtilizador/${userData.id}`, formData);
   }
+
 
 
 
@@ -87,7 +101,7 @@ export class AuthService {
     return this.http.get<any>(`${this.apiUrl}/Utilizador/ListarUtilizadores`);
   }
 
-  updateStatus(userId: number, status: boolean): Observable<any> {
+  updateStatus1(userId: number, status: boolean): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/Utilizador/${userId}/ativo`, { ativo: status });
   }
 
@@ -103,4 +117,45 @@ export class AuthService {
     this.currentUserSubject.next(null);
     localStorage.removeItem('currentUser');
   }
+
+  gerarNomeUsuario(nome: string): string {
+    return `${nome.toLowerCase().replace(/\s/g, '')}_${Math.floor(Math.random() * 1000)}`;
+  }
+
+  gerarSenha(): string {
+    return Math.random().toString(36).slice(-8);
+  }
+
+  enviarEmail_1(emailData: any): Observable<any> {
+
+    return this.http.post(`${this.apiUrl}/Email/enviar`, emailData, { responseType: 'text' }).pipe(
+      map(response => {
+        // Convert the plain text response to a JSON-like structure
+        return { sucesso: true, mensagem: response };
+      }),
+      catchError(error => {
+        // Handle error response and convert to a JSON-like structure
+        return [{ sucesso: false, mensagem: error.message }];
+      })
+    );
+  }
+
+  enviarEmail_2(emailData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/Email/enviar`, emailData, { responseType: 'text' }).pipe(
+      map(response => {
+        // Convert the plain text response to a JSON-like structure
+        return { sucesso: true, mensagem: response };
+      }),
+      catchError(error => {
+        // Handle error response and convert to a JSON-like structure
+        return [{ sucesso: false, mensagem: error.message }];
+      })
+    );
+  }
+
+
+  buscarPorEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Utilizador/ByEmail?email=${email}`);
+  }
+
 }

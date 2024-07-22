@@ -50,7 +50,7 @@
 </header><!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar" *ngIf="!isStatusFalse">
   <ul class="sidebar-nav" id="sidebar-nav">
     <!-- Dashboard Nav -->
     <li class="nav-item" *ngIf="currentUser?.perfil?.descricao === 'Administrador'">
@@ -61,7 +61,7 @@
     </li>
 
     <!-- Solicitar Marcação Nav -->
-    <li class="nav-item" *ngIf="currentUser?.perfil?.descricao === 'Registrado'">
+    <li class="nav-item" *ngIf="currentUser?.perfil?.descricao === 'Registrado' || currentUser?.perfil?.descricao === 'Profissional'">
       <a class="nav-link" routerLink="/layout/solicitar-marcacoes">
         <i class="bi bi-menu-button-wide"></i>
         <span>Solicitar Marcação</span>
@@ -69,10 +69,19 @@
     </li>
 
     <!-- Minhas Marcações Nav -->
-    <li class="nav-item" *ngIf="currentUser?.perfil?.descricao === 'Registrado'">
-      <a class="nav-link" routerLink="/layout/minhas-marcacoes">
-        <i class="bi bi-journal-text"></i>
-        <span>Minhas Marcações</span>
+  <li class="nav-item" *ngIf="currentUser?.perfil?.descricao === 'Registrado'">
+    <a class="nav-link" routerLink="/layout/minhas-marcacoes">
+      <i class="bi bi-journal-text"></i>
+      <span>Minhas Marcações</span>
+    </a>
+  </li>
+
+
+     <!-- Solicitar Marcação Nav -->
+     <li class="nav-item" *ngIf="currentUser?.perfil?.descricao === 'Profissional'">
+      <a class="nav-link" routerLink="/layout/consultar-agenda">
+        <i class="bi bi-menu-button-wide"></i>
+        <span>consultar-agenda</span>
       </a>
     </li>
 

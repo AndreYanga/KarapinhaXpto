@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ProfissionalService } from '../../../Services/profissional.service';
+import { AuthService } from '../../../Services/auth.service';
+
+import { RegisterRequest } from '../../../Interfaces/register.interface';
 
 interface Horario {
   id: number;
@@ -39,6 +42,7 @@ export class GerirProfissionaisComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private profissionalService: ProfissionalService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -125,7 +129,10 @@ export class GerirProfissionaisComponent implements OnInit {
         console.log('Profissional cadastrado com sucesso:', response);
         alert('Profissional cadastrado com sucesso');
         // Após o cadastro, pesquisa o ID do profissional pelo e-mail
+        // Após o cadastro do profissional, registrar o usuário
+
         this.obterIdProfissionalPorEmail(this.email);
+        this.registrarUtilizador();
       },
       error => {
         console.error('Erro ao cadastrar profissional:', error);
@@ -176,7 +183,7 @@ export class GerirProfissionaisComponent implements OnInit {
 
     // Após o loop, você pode adicionar uma lógica de conclusão, por exemplo:
     alert('Horários cadastrados para o profissional');
-    this.limparCampos();
+
   }
 
   listarProfissionais(): void {
@@ -213,4 +220,76 @@ export class GerirProfissionaisComponent implements OnInit {
     this.horariosSelecionados = []; // Limpar horários selecionados
   }
 
+
+  registrarUtilizador(): void {
+    const username = gerarNomeUsuario(this.nomeProfissional);
+    const senha = gerarSenha();
+
+    const dadosRegistro: RegisterRequest = {
+      nomeCompleto: this.nomeProfissional,
+      email: this.email,
+      telemovel: this.telefone,
+      foto: this.fotoProfissional,
+      bi: this.bi,
+      userName: username,
+      password: senha,
+      perfilId: 1002,
+      ativo: true,
+      status: false
+    };
+
+    this.authService.register(dadosRegistro).subscribe(
+      utilizadorResponse => {
+        console.log('Usuário registrado com sucesso:', utilizadorResponse);
+        alert(`Usuário registrado com sucesso!\nUsername: ${username}\nSenha: ${senha}`);
+
+        const emailData = {
+          para: this.email,
+          assunto: 'Bem-vindo ao Sistema',
+          mensagem: `Olá ${this.nomeProfissional},\n\nSuas credenciais de acesso são:\nUsername: ${username}\nSenha: ${senha}\n\nPor favor, altere sua senha após o primeiro login.`
+        };
+        console.log('Enviando dados de email:', emailData);
+
+         // Enviar email de reagendamento
+         this.authService.enviarEmail_1(emailData).subscribe(
+          emailResponse => {
+            if (emailResponse.sucesso) {
+              console.log('Email enviado com sucesso:', emailResponse);
+              alert('Email enviado com sucesso');
+              this.limparCampos();
+              this.ngOnInit();
+            } else {
+              console.error('Erro ao enviar email:', emailResponse.mensagem);
+              alert('Erro ao enviar email');
+            }
+          },
+          emailError => {
+            console.error('Erro ao enviar email:', emailError);
+            alert('Erro ao enviar email');
+          }
+        );
+      },
+      error => {
+        console.error('Erro ao registrar usuário:', error);
+        alert('Erro ao registrar usuário');
+      }
+    );
+  }
+
+}
+
+function gerarNomeUsuario(nomeProfissional: string): string {
+  const randomNumber = Math.floor(Math.random() * 10000);
+  const username = nomeProfissional.split(' ')[0].toLowerCase() + randomNumber;
+  return username;
+}
+
+function gerarSenha(): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+  let senha = '';
+  for (let i = 0; i < 12; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    senha += chars[randomIndex];
+  }
+  return senha;
 }

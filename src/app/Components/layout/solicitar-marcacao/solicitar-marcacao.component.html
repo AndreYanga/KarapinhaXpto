@@ -1,5 +1,4 @@
 <main id="main" class="main">
-
   <div class="pagetitle">
     <h1>Marcações</h1>
   </div><!-- End Page Title -->
@@ -7,13 +6,21 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-6">
-
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Solicitar Marcações</h5>
 
             <!-- General Form Elements -->
             <form class="formulario">
+
+              <!-- Campo para e-mail do usuário visível somente para profissionais -->
+              <div class="row mb-3" *ngIf="perfilAtual === 'Profissional'">
+                <label for="emailUtilizador" class="col-sm-2 col-form-label">E-mail do Utilizador</label>
+                <div class="col-sm-10">
+                  <input id="emailUtilizador" [(ngModel)]="emailUtilizador" name="emailUtilizador" type="email" class="form-control" />
+                  <button type="button" class="btn btn-primary mt-2" (click)="consultarUtilizadorPorEmail()">Consultar Utilizador</button>
+                </div>
+              </div>
 
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Escolher Categoria</label>
@@ -52,12 +59,16 @@
                 </div>
               </div>
 
-              <label for="hora">Selecionar Hora</label>
-              <select id="hora" (change)="selecionarHora($event)">
-                <option *ngFor="let horario of horarios" [value]="horario.horarioId">
-                  {{ horario.horarioDescricao }}
-                </option>
-              </select>
+              <div class="row mb-3">
+                <label for="hora" class="col-sm-2 col-form-label">Selecionar Hora</label>
+                <div class="col-sm-10">
+                  <select id="hora" class="form-select" (change)="selecionarHora($event)">
+                    <option *ngFor="let horario of horarios" [value]="horario.horarioId">
+                      {{ horario.horarioDescricao }}
+                    </option>
+                  </select>
+                </div>
+              </div>
 
               <div class="row mb-3">
                 <label for="inputTotalValue" class="col-sm-2 col-form-label">Valor unitário pelo serviço</label>
@@ -72,40 +83,38 @@
                 </div>
               </div>
 
-             <!-- Lista de Serviços Selecionados -->
-        <div class="row mb-3" *ngIf="servicosSelecionados.length > 0">
-          <div class="col-sm-8">
-            <h5>Serviços Selecionados:</h5>
-            <ul class="list-group">
-              <li class="list-group-item" *ngFor="let servico of servicosSelecionados">
-                <span>{{ servico.descricao }}</span>
-                <span class="badge bg-primary">{{ servico.preco | currency:'Kz':'symbol' }}</span>
-                <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="removerServico(servico)">Remover</button>
-              </li>
-            </ul>
-          </div>
-        </div>
+              <!-- Lista de Serviços Selecionados -->
+              <div class="row mb-3" *ngIf="servicosSelecionados.length > 0">
+                <div class="col-sm-8">
+                  <h5>Serviços Selecionados:</h5>
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let servico of servicosSelecionados">
+                      <span>{{ servico.descricao }}</span>
+                      <span class="badge bg-primary">{{ servico.preco | currency:'Kz':'symbol' }}</span>
+                      <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="removerServico(servico)">Remover</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-      <!-- Total a Pagar -->
-      <div class="row mb-3" *ngIf="servicosSelecionados.length > 0">
-        <div class="col-sm-8">
-          <p><strong>Total a Pagar:</strong> {{ novaMarcacao.totalPagar | currency:'Kz':'symbol' }}</p>
-        </div>
-      </div>
-
+              <!-- Total a Pagar -->
+              <div class="row mb-3" *ngIf="servicosSelecionados.length > 0">
+                <div class="col-sm-8">
+                  <p><strong>Total a Pagar:</strong> {{ novaMarcacao.totalPagar | currency:'Kz':'symbol' }}</p>
+                </div>
+              </div>
 
               <div class="row mb-3">
                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary" (click)="confirmarMarcacao()">Confirmar Marcação</button>
+                  <button type="button" class="btn btn-primary" (click)="confirmarMarcacao()">Confirmar Marcação</button>
                 </div>
               </div>
+
             </form><!-- End General Form Elements -->
 
           </div>
         </div>
-
       </div>
     </div>
   </section>
-
 </main><!-- End #main -->

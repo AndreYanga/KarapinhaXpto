@@ -44,7 +44,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioLogado = this.authService.currentUserValue;
     if (this.usuarioLogado) {
-      this.profileForm.patchValue({
+        this.profileForm.patchValue({
         id: this.usuarioLogado.id,
         nomeCompleto: this.usuarioLogado.nomeCompleto,
         userName: this.usuarioLogado.userName,
@@ -91,20 +91,34 @@ export class PerfilComponent implements OnInit {
       return;
     }
 
+    // Salvar o estado atual do status do usuário
+    const estado = this.usuarioLogado.status;
     const formData = {
       id: this.usuarioLogado.id,
       password: this.changePasswordForm.get('newPassword')?.value, // Nova senha aqui
+      status: true // Atualiza o status para true
     };
 
-    this.authService.updateProfile(formData).subscribe(
+      // Atualiza o status localmente
+     this.usuarioLogado.status = true;
+
+      this.authService.updateProfile(formData).subscribe(
       response => {
         console.log('Senha atualizada com sucesso', response);
-        window.alert('Senha atualizada com sucesso!');  // Adicionando o alerta aqui
+        window.alert('Senha atualizada com sucesso!'); // Adicionando o alerta aqui
         this.changePasswordForm.reset(); // Limpa o formulário após sucesso
+
+
+        // Verifica o status e redireciona se necessário
+        if (estado === false) {
+
+          this.router.navigate(['/login']); // Redireciona para a tela de login
+        }
       },
       error => {
         console.error('Erro ao atualizar senha', error);
       }
     );
   }
+
 }

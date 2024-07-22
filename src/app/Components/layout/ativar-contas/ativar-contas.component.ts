@@ -23,14 +23,40 @@ export class AtivarContasComponent implements OnInit {
     })
   }
 
+
   toggleStatus(usuario: any): void {
     const novoStatus = !usuario.ativo; // Inverte o status atual
 
+    // Atualiza o status do usuário
     this.authService.updateStatus(usuario.id, novoStatus).subscribe({
       next: (response: any) => {
         if (response.sucesso) {
           usuario.ativo = novoStatus; // Atualiza o status localmente
           alert(`Conta de ${usuario.nomeCompleto} ${novoStatus ? 'ativada' : 'desativada'} com sucesso!`);
+
+          // Configura o e-mail para enviar
+          const emailData = {
+            para: usuario.email,
+            assunto: `Conta ${novoStatus ? 'Ativada' : 'Desativada'}`,
+            mensagem: `Sua conta foi ${novoStatus ? 'ativada' : 'desativada'} com sucesso.`
+          };
+
+          // Envia o e-mail
+          this.authService.enviarEmail_1(emailData).subscribe(
+            emailResponse => {
+              if (emailResponse.sucesso) {
+                console.log('Email de notificação enviado com sucesso:', emailResponse);
+                alert(`Email de notificação enviado com sucesso!`);
+              } else {
+                console.error('Erro ao enviar e-mail de notificação:', emailResponse.mensagem);
+                alert(`Erro ao enviar e-mail de notificação!`);
+              }
+            },
+            emailError => {
+              console.error('Erro ao enviar e-mail de notificação:', emailError);
+            }
+          );
+
         } else {
           alert('Erro ao alterar status da conta. Por favor, tente novamente.');
         }
@@ -41,4 +67,6 @@ export class AtivarContasComponent implements OnInit {
       }
     });
   }
+
+
 }

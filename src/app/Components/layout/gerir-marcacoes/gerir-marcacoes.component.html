@@ -1,91 +1,86 @@
 <main id="main" class="main">
-
   <div class="pagetitle">
-    <h1>Gerir Marcações</h1>
+    <h1>Minhas Marcações</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Início</a></li>
-        <li class="breadcrumb-item">Gerir</li>
-        <li class="breadcrumb-item active">Marcações</li>
+        <li class="breadcrumb-item">Administração</li>
+        <li class="breadcrumb-item active">Usuários Pendentes</li>
       </ol>
     </nav>
   </div><!-- Título da Página -->
 
   <section class="section">
-    <div class="row">
-      <div class="col-lg-6">
+    <!-- Loop through marcacoes -->
+    <div *ngFor="let marcacao of marcacoes">
+      <h3>ID da Marcação: {{ marcacao.id }}</h3>
+      <p>Total a Pagar: {{ marcacao.totalPagar | currency:'Kz':'symbol' }}</p>
 
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Confirmar Marcações</h5>
+       <!-- Botão Confirmar para marcações pendentes -->
+      <ng-container *ngIf="!marcacao.status">
+        <button class="btn btn-primary btn-sm" (click)="confirmarMarcacao(marcacao)">Confirmar</button>
+      </ng-container>
+      <!-- Verifica o status da marcação -->
+      <ng-container *ngIf="marcacao.status; else marcaPendente">
+        <!-- Lista de Serviços para esta Marcação -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Serviço/Tratamento</th>
+              <th>Categoria</th>
+              <th>Profissional</th>
+              <th>Data</th>
+              <th>Hora</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let servico of servicosPorMarcacao[marcacao.id]">
+              <td>{{ servico.servicoDescricao }}</td>
+              <td>{{ servico.categoriaDescricao }}</td>
+              <td>{{ servico.profissionalNome }}</td>
+              <td>{{ servico.dataHora | date:'yyyy/MM/dd' }}</td>
+              <td>{{ servico.dataHora | date:'HH:mm' }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm me-2" (click)="selecionarProfissional(servico.profissionalId)" (click)="openReagendarModal(marcacao, servico, reagendarModal)">Reagendar</button>
+                <button class="btn btn-danger btn-sm" (click)="cancelarMarcacao(servico.id)">Cancelar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <!-- Fim Lista de Serviços para esta Marcação -->
 
-            <!-- Lista de Marcações Pendentes -->
-            <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cliente 1 - Data: 12/06/2024 - Horário: 09:00
-                <button class="btn btn-primary btn-sm">Confirmar</button>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cliente 2 - Data: 15/06/2024 - Horário: 10:30
-                <button class="btn btn-primary btn-sm">Confirmar</button>
-              </li>
-              <!-- Adicione mais itens conforme necessário -->
-            </ul>
-            <!-- Fim da Lista de Marcações Pendentes -->
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6">
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Reagendar Marcações</h5>
-
-            <!-- Lista de Marcações para Reagendar -->
-            <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cliente 3 - Data: 20/06/2024 - Horário: 14:00
-                <button class="btn btn-warning btn-sm">Reagendar</button>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cliente 4 - Data: 22/06/2024 - Horário: 15:30
-                <button class="btn btn-warning btn-sm">Reagendar</button>
-              </li>
-              <!-- Adicione mais itens conforme necessário -->
-            </ul>
-            <!-- Fim da Lista de Marcações para Reagendar -->
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 mt-4">
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Notificar Clientes</h5>
-
-            <!-- Lista de Marcações para Notificar -->
-            <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cliente 5 - Data: 25/06/2024 - Horário: 16:00
-                <button class="btn btn-info btn-sm">Notificar</button>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cliente 6 - Data: 28/06/2024 - Horário: 18:00
-                <button class="btn btn-info btn-sm">Notificar</button>
-              </li>
-              <!-- Adicione mais itens conforme necessário -->
-            </ul>
-            <!-- Fim da Lista de Marcações para Notificar -->
-
-          </div>
-        </div>
-      </div>
+      <!-- Marcação Pendente -->
+      <ng-template #marcaPendente>
+        <p>Marcação Pendente</p>
+      </ng-template>
+      <!-- Fim Marcação Pendente -->
     </div>
+    <!-- Fim Loop through marcacoes -->
+
+    <!-- Modal de Reagendamento -->
+    <ng-template #reagendarModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="reagendarModalLabel">Reagendar Marcação</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reagendarForm" (ngSubmit)="onReagendarSubmit()">
+          <div class="mb-3">
+            <label for="data" class="form-label">Data</label>
+            <input type="date" id="data" class="form-control" formControlName="data" (change)="selecionarData($event)">
+          </div>
+          <div class="mb-3">
+            <label for="hora" class="form-label">Hora</label>
+            <select id="hora" class="form-control" formControlName="hora" (change)="selecionarHora($event)">
+              <option *ngFor="let horario of horarios" [value]="horario.horarioId">{{ horario.horarioDescricao }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+      </div>
+    </ng-template>
   </section>
-
 </main><!-- End #main -->
-

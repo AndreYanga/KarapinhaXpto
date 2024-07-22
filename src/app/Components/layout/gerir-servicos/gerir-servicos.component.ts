@@ -50,6 +50,7 @@ export class GerirServicosComponent implements OnInit {
           this.carregarServicos();
           this.resetNovaServico();
           alert('Serviço adicionado com sucesso!');
+          this.ngOnInit();
         } else {
           this.handleErrorResponse(response);
         }

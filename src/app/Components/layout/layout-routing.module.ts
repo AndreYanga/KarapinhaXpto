@@ -16,6 +16,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
 import { SolicitarMarcacaoComponent } from './solicitar-marcacao/solicitar-marcacao.component';
 import { GerirCategoriasComponent } from './gerir-categorias/gerir-categorias.component';
+import { ConsultarAgendaComponent } from './consultar-agenda/consultar-agenda.component';
 
 
 
@@ -35,7 +36,10 @@ const routes: Routes = [{
     {path:'perfil', component:PerfilComponent},
     {path:'relatorio', component:RelatorioComponent},
     {path:'solicitar-marcacoes', component:SolicitarMarcacaoComponent},
-    {path:'gerir-categorias', component:GerirCategoriasComponent}
+    {path:'gerir-categorias', component:GerirCategoriasComponent},
+    {path:'consultar-agenda', component:ConsultarAgendaComponent}
+
+
   ]
 }];
 

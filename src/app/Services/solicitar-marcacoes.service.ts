@@ -29,4 +29,12 @@ export class SolicitarMarcacoesService {
   salvarServicoMarcacao(servicoMarcacao: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/ServicoMarcacao/CriarServicoMarcacao`, servicoMarcacao);
   }
+
+  listarIdProfissionalPorEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Profissional/idPorEmail?email=${email}`);
+  }
+
+  listarServicoMarcacaoPorProfissionalId(profissionalId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/ServicoMarcacao/ListarPorProfissionalId/${profissionalId}`);
+  }
 }

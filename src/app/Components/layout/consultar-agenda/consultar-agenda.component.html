@@ -1,0 +1,63 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Consultar Agenda</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+        <li class="breadcrumb-item">Administração</li>
+        <li class="breadcrumb-item active">Consultar Agenda</li>
+      </ol>
+    </nav>
+  </div><!-- Título da Página -->
+
+  <section class="section">
+    <div *ngIf="servicos">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Serviço/Tratamento</th>
+            <th>Categoria</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let servico of servicos">
+            <td>{{ servico.servicoDescricao }}</td>
+            <td>{{ servico.categoriaDescricao }}</td>
+            <td>{{ servico.dataHora | date:'yyyy/MM/dd' }}</td>
+            <td>{{ servico.dataHora | date:'HH:mm' }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-2" (click)="openReagendarModal(servico, reagendarModal)">Reagendar</button>
+              <button class="btn btn-danger btn-sm" (click)="cancelarServico(servico.id)">Cancelar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal de Reagendamento -->
+    <ng-template #reagendarModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="reagendarModalLabel">Reagendar Serviço</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reagendarForm" (ngSubmit)="onReagendarSubmit()">
+          <div class="mb-3">
+            <label for="data" class="form-label">Data</label>
+            <input type="date" id="data" class="form-control" formControlName="data" (change)="selecionarData($event)">
+          </div>
+          <div class="mb-3">
+            <label for="hora" class="form-label">Hora</label>
+            <select id="hora" class="form-control" formControlName="hora" (change)="selecionarHora($event)">
+              <option *ngFor="let horario of horarios" [value]="horario.horarioId">{{ horario.horarioDescricao }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+      </div>
+    </ng-template>
+  </section>
+</main><!-- End #main -->

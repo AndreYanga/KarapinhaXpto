@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriaService } from '../../../Services/categoria.service';
 import { SolicitarMarcacoesService } from '../../../Services/solicitar-marcacoes.service';
 import { AuthService } from '../../../Services/auth.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-solicitar-marcacao',
@@ -33,10 +34,15 @@ export class SolicitarMarcacaoComponent implements OnInit {
     hora: null
   };
 
+  emailUtilizador: string = ''; // Campo para e-mail do usuário
+  perfilAtual: string = ''; // Perfil do usuário logado
+  salvarEmail: string = ''; // Perfil do usuário logado
+
   constructor(
     private categoriaService: CategoriaService,
     private solicitacaoService: SolicitarMarcacoesService,
-    private authService: AuthService
+    private authService: AuthService,
+
   ) { }
 
   ngOnInit(): void {
@@ -59,8 +65,28 @@ export class SolicitarMarcacaoComponent implements OnInit {
     const currentUser = this.authService.currentUserValue;
     if (currentUser) {
       this.novaMarcacao.utilizadorId = currentUser.id;
+      this.perfilAtual = currentUser.perfil.descricao; // Atribuir o perfil do usuário logado
     }
   }
+
+  consultarUtilizadorPorEmail() {
+    this.salvarEmail = this.emailUtilizador;
+    this.authService.buscarPorEmail(this.emailUtilizador).subscribe(
+      response => {
+        if (response.sucesso) {
+          this.novaMarcacao.utilizadorId = response.dados.id;
+          alert('Utilizador encontrado');
+        } else {
+          alert('Utilizador não encontrado');
+        }
+      },
+      error => {
+        console.error('Erro ao consultar utilizador por e-mail', error);
+      }
+    );
+  }
+
+
 
   selecionarCategoria(event: any): void {
     const categoriaId = event.target.value;
@@ -177,6 +203,12 @@ export class SolicitarMarcacaoComponent implements OnInit {
   }
 
   confirmarMarcacao(): void {
+    if (this.perfilAtual === 'Profissional') {
+      this.novaMarcacao.status = true;
+    } else {
+      this.novaMarcacao.status = false;
+    }
+
     this.solicitacaoService.registrarMarcacao(this.novaMarcacao).subscribe(
       response => {
         const marcacaoId = response.id; // Obter o ID da marcação salva
@@ -190,83 +222,88 @@ export class SolicitarMarcacaoComponent implements OnInit {
             dataHora: servico.dataHora
           };
 
-          console.log('Dados do serviço de marcação antes de enviar:', servicoMarcacao);
-
           this.solicitacaoService.salvarServicoMarcacao(servicoMarcacao).subscribe(
             res => {
               console.log('Serviço de marcação salvo com sucesso', res);
             },
             err => {
-              console.error('Erro ao salvar serviço de marcação: ', err);
-              alert('Erro ao salvar serviço de marcação');
+              console.error('Erro ao salvar serviço de marcação', err);
             }
           );
         });
 
-        // Gerar o PDF após salvar todos os serviços
-        this.gerarPDF(marcacaoId);
+        alert('Marcação realizada com sucesso!');
 
-        // Limpar a lista de serviços selecionados após salvar
-        this.servicosSelecionados = [];
+        // Enviar e-mail se o perfil for 'Profissional'
+        if (this.perfilAtual === 'Profissional') {
+          if (!this.salvarEmail) {
+            console.error('E-mail do usuário não definido.');
+            return;
+          }
 
-        // Limpar também outros dados se necessário, como total a pagar
-        this.novaMarcacao.totalPagar = 0;
-        // Limpar novoServicoMarcacao para um novo serviço
-        this.novoServicoMarcacao = {
-          servicoId: null,
-          marcacaoId: null,
-          categoriaId: null,
-          profissionalId: null,
-          data: null,
-          hora: null
-        };
+          // Configura o e-mail para enviar
+          const emailData = {
+            para: this.salvarEmail,
+            assunto: `Solicitar Marcações`,
+            mensagem: `A sua marcação foi solicitada com sucesso.`
+          };
 
-        // Feedback adicional ou redirecionamento após confirmação
-        alert('Marcação confirmada com sucesso!');
+          console.log('Enviando e-mail para:', this.salvarEmail);
+
+          // Envia o e-mail
+          this.authService.enviarEmail_2(emailData).subscribe(
+            emailResponse => {
+              if (emailResponse.sucesso) {
+                console.log('Email de notificação enviado com sucesso:', emailResponse);
+                alert('Email de notificação enviado com sucesso!');
+              } else {
+                console.error('Erro ao enviar e-mail de notificação:', emailResponse.mensagem);
+                alert(`Erro ao enviar e-mail de notificação: ${emailResponse.mensagem}`);
+              }
+            },
+            emailError => {
+              console.error('Erro ao enviar e-mail de notificação:', emailError);
+              alert(`Erro ao enviar e-mail de notificação: ${emailError.message}`);
+            }
+          );
+        }
+
+        this.resetarFormulario();
       },
       error => {
-        console.error('Erro ao registrar marcação: ', error);
-        alert('Erro ao registrar marcação');
+        console.error('Erro ao registrar marcação', error);
+        alert('Erro ao realizar a marcação.');
       }
     );
   }
 
-  // Método para gerar e exibir o PDF
-  gerarPDF(marcacaoId: number): void {
-    // Nome da empresa e localização
-    const nomeEmpresa = 'Belleza Karapinha';
-    const localizacao = 'Talatona, Bairro Militar';
 
-    const doc = new jsPDF();
-
-    // Adiciona o título do documento
-    doc.setFontSize(18);
-    doc.text('Detalhes da Marcação', 10, 10);
-
-    // Adiciona o nome da empresa e localização
-    doc.setFontSize(14);
-    doc.text(`${nomeEmpresa}`, 10, 20);
-    doc.text(`${localizacao}`, 10, 30);
-
-    // Adiciona a data de registro
-    doc.setFontSize(12);
-    doc.text(`Data de Registro: ${this.novaMarcacao.dataRegistro}`, 10, 40);
-
-    // Adiciona o ID da marcação
-    doc.text(`ID da Marcação: ${marcacaoId}`, 10, 50);
-
-    // Adiciona os serviços solicitados
-    doc.text('Serviços Solicitados:', 10, 60);
-    this.servicosSelecionados.forEach((servico, index) => {
-      const servicoText = `${index + 1}. Serviço: ${servico.servicoNome}, Profissional: ${servico.profissionalNome}, Data: ${servico.dataHora}, Preço: Kz${servico.preco}`;
-      doc.text(servicoText, 10, 70 + (index * 10));
-    });
-
-    // Adiciona o total a pagar
-    doc.setFontSize(14);
-    doc.text(`Total a Pagar: Kz${this.novaMarcacao.totalPagar}`, 10, 70 + (this.servicosSelecionados.length * 10) + 10);
-
-    // Salva o PDF com um nome único (exemplo: marcacao-12345.pdf)
-    doc.save(`marcacao-${marcacaoId}.pdf`);
+  resetarFormulario(): void {
+    this.servicoSelecionado = null;
+    this.categorias = [];
+    this.servicos = [];
+    this.profissionais = [];
+    this.horarios = [];
+    this.servicosSelecionados = [];
+    this.novaMarcacao = {
+      dataRegistro: new Date().toISOString(),
+      totalPagar: 0,
+      status: true,
+      utilizadorId: 0
+    };
+    this.novoServicoMarcacao = {
+      servicoId: null,
+      marcacaoId: null,
+      categoriaId: null,
+      profissionalId: null,
+      data: null,
+      hora: null
+    };
+    this.emailUtilizador = '';
+    this.perfilAtual = '';
   }
+
+
+
+
 }

@@ -104,7 +104,7 @@ export class GerirAdministrativoComponent implements OnInit {
       password: '',
       perfilId: 2,
       ativo: true,
-      status: true
+      status: false
     };
     this.errorMessage = ''; // Limpar mensagem de erro ao limpar o formulário
   }
